@@ -1,4 +1,3 @@
-import CoreGraphics
 private import CxxSFML
 private import CxxStdlib
 
