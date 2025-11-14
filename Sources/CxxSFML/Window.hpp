@@ -4,7 +4,7 @@
 #include <utility> // for std::monostate
 
 /// Enumerates which kinds of events are supported by SFML.
-enum class EventKind : std::uint8_t { Unknown, Closed, Resized };
+enum class EventKind : std::uint8_t { Unknown, Closed, Resized, FocusLost, FocusGained };
 
 /// A Swift-friendly representation of events. As of the 14th of Nov 2025, C++ interoperability cannot meaningfully
 /// represent `sf::Event` in Swift.
@@ -20,8 +20,8 @@ struct EventVariant {
 };
 
 /// Converts a given `sf::Event` to an `EventVariant`.
-static inline auto eventVariant(sf::Event const& event) -> EventVariant {
-    return event.visit([](auto&& event) {
+static inline auto eventVariant(sf::Event const &event) -> EventVariant {
+    return event.visit([](auto &&event) {
         using EventType = std::decay_t<decltype(event)>;
 
         if constexpr (std::is_same_v<EventType, sf::Event::Closed>) {
@@ -34,6 +34,18 @@ static inline auto eventVariant(sf::Event const& event) -> EventVariant {
             EventVariant variant;
             variant.kind = EventKind::Resized;
             variant.resized = event;
+            return variant;
+        }
+
+        if constexpr (std::is_same_v<EventType, sf::Event::FocusLost>) {
+            EventVariant variant;
+            variant.kind = EventKind::FocusLost;
+            return variant;
+        }
+
+        if constexpr (std::is_same_v<EventType, sf::Event::FocusGained>) {
+            EventVariant variant;
+            variant.kind = EventKind::FocusGained;
             return variant;
         }
 

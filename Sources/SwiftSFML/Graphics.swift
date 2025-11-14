@@ -69,6 +69,12 @@ extension RenderWindow {
                 height: eventVariant.resized.size.y
             )
 
+        case .FocusLost:
+            return .focusLost
+
+        case .FocusGained:
+            return .focusGained
+
         case .Unknown:
             return nil
 

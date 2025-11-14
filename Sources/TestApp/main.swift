@@ -18,10 +18,17 @@ while window.isOpen {
     while let event = window.pollEvent() {
         switch event {
         case .closed:
+            print("Closed.")
             window.close()
 
         case .resized(width: let width, height: let height):
-            print("\(width)x\(height)")
+            print("Resized to \(width)x\(height).")
+
+        case .focusLost:
+            print("Focus lost.")
+
+        case .focusGained:
+            print("Focus gained.")
         }
     }
 
