@@ -7,6 +7,8 @@ var window = RenderWindow(
 )
 
 window.frameRate = 60
+
+// Try commenting this out to see the ImGui UI disappear.
 if !window.enableImGui() {
     fatalError("Could not enable ImGui.")
 }
@@ -34,7 +36,9 @@ while window.isOpen {
 
     window.updateImGui(clock.restart())
 
-    ImGui.showDemoWindow()
+    if window.isImGuiEnabled {
+        ImGui.showDemoWindow()
+    }
 
     window.clear(color: .init(r: 100, g: 150, b: 250))
     window.renderImGui()
