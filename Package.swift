@@ -10,10 +10,18 @@ let package = Package(
     products: [
         .library(
             name: "SwiftSFML",
+            type: .dynamic,
             targets: ["SwiftSFML"]
         ),
     ],
     targets: [
+        .executableTarget(
+            name: "TestApp",
+            dependencies: ["SwiftSFML"],
+            swiftSettings: [
+                .interoperabilityMode(.Cxx),
+            ]
+        ),
         .target(
             name: "SwiftSFML",
             dependencies: ["CxxSFML"],
@@ -27,6 +35,9 @@ let package = Package(
             publicHeadersPath: ".",
             cxxSettings: [
                 .unsafeFlags(["-I", "/opt/homebrew/include"], .when(platforms: [.macOS])),
+            ],
+            linkerSettings: [
+                .unsafeFlags(["-L", "/opt/homebrew/lib"], .when(platforms: [.macOS])),
             ]
         ),
         .testTarget(

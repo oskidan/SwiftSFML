@@ -1,0 +1,10 @@
+module CxxSFML {
+    requires cplusplus20
+
+    header "Window.hpp"
+    header "Graphics.hpp"
+
+    link "sfml-system"
+    link "sfml-window"
+    link "sfml-graphics"
+}
