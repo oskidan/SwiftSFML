@@ -1,0 +1,4 @@
+module CxxSFML [system] {
+    header "Graphics.hpp"
+    link "sfml-graphics"
+}
