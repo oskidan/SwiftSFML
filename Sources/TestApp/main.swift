@@ -7,6 +7,11 @@ var window = RenderWindow(
 )
 
 window.frameRate = 60
+if !window.enableImGui() {
+    fatalError("Could not enable ImGui.")
+}
+
+var clock = Clock()
 
 while window.isOpen {
 
@@ -20,6 +25,11 @@ while window.isOpen {
         }
     }
 
-    window.clear()
+    window.updateImGui(clock.restart())
+
+    ImGui.showDemoWindow()
+
+    window.clear(color: .init(r: 100, g: 150, b: 250))
+    window.renderImGui()
     window.display()
 }

@@ -1,0 +1,6 @@
+module CxxImGui {
+    header "imgui.h"
+    header "imgui-SFML.h"
+
+    header "ImGui.hpp"
+}

@@ -1,10 +1,15 @@
 private import CxxSFML
 private import CxxStdlib
+private import CxxImGui
 
 /// A window that can serve as a target for 2D drawing.
 public struct RenderWindow: ~Copyable {
 
     var guts: sf.RenderWindow
+
+    /// Whether the ImGui is enabled for this window.
+    public private(set) var isImGuiEnabled: Bool = false
+
 
     /// The desired frame rate. A value of `0` disables frame rate limit. The default value is `0`.
     public var frameRate: UInt32 = 0 {
@@ -50,6 +55,8 @@ extension RenderWindow {
             return nil
         }
 
+        processImGuiEvent(event)
+
         let eventVariant = CxxSFML.eventVariant(event)
 
         switch eventVariant.kind {
@@ -79,6 +86,46 @@ extension RenderWindow {
     /// Displays on screen what has been rendered to the window so far.
     public mutating func display() {
         guts.display()
+    }
+}
+
+extension RenderWindow {
+
+    /// Enables ImGui in the window.
+    /// - Returns: whether ImGui has been enabled.
+    public mutating func enableImGui() -> Bool {
+        isImGuiEnabled = CxxImGui.initialize(&guts)
+        return isImGuiEnabled
+    }
+
+    /// Disables ImGui in the window.
+    public mutating func disableImGui() {
+        CxxImGui.shutdown(guts)
+        isImGuiEnabled = false
+    }
+
+    /// Asks ImGui to process the given SFML event.
+    private mutating func processImGuiEvent(_ event: sf.Event) {
+        guard isImGuiEnabled else {
+            return
+        }
+        CxxImGui.processEvent(guts, event)
+    }
+
+    /// Updates the ImGui internal state.
+    public mutating func updateImGui(_ elapsedTime: Time) {
+        guard isImGuiEnabled else {
+            return
+        }
+        CxxImGui.ImGui.SFML.Update(&guts, elapsedTime.guts)
+    }
+
+    /// Renders the ImGui-managed UI.
+    public mutating func renderImGui() {
+        guard isImGuiEnabled else {
+            return
+        }
+        CxxImGui.ImGui.SFML.Render(&guts)
     }
 }
 

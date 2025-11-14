@@ -24,7 +24,7 @@ let package = Package(
         ),
         .target(
             name: "SwiftSFML",
-            dependencies: ["CxxSFML"],
+            dependencies: ["CxxSFML", "CxxImGui"],
             swiftSettings: [
                 .unsafeFlags(["-I", "/opt/homebrew/include"], .when(platforms: [.macOS])),
                 .interoperabilityMode(.Cxx),
@@ -38,6 +38,16 @@ let package = Package(
             ],
             linkerSettings: [
                 .unsafeFlags(["-L", "/opt/homebrew/lib"], .when(platforms: [.macOS])),
+            ]
+        ),
+        .target(
+            name: "CxxImGui",
+            publicHeadersPath: ".",
+            cxxSettings: [
+                .unsafeFlags(["-I", "/opt/homebrew/include"], .when(platforms: [.macOS])),
+            ],
+            linkerSettings: [
+                .linkedFramework("OpenGL", .when(platforms: [.macOS]))
             ]
         ),
         .testTarget(
