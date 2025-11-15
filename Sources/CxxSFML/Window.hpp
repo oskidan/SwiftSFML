@@ -4,7 +4,16 @@
 #include <utility> // for std::monostate
 
 /// Enumerates which kinds of events are supported by SFML.
-enum class EventKind : std::uint8_t { Unknown, Closed, Resized, FocusLost, FocusGained, TextEntered };
+enum class EventKind : std::uint8_t {
+    Unknown,
+    Closed,
+    Resized,
+    FocusLost,
+    FocusGained,
+    TextEntered,
+    KeyPressed,
+    KeyReleased
+};
 
 /// A Swift-friendly representation of events. As of the 14th of Nov 2025, C++ interoperability cannot meaningfully
 /// represent `sf::Event` in Swift.
@@ -17,6 +26,8 @@ struct EventVariant {
 
         sf::Event::Resized resized;
         sf::Event::TextEntered textEntered;
+        sf::Event::KeyPressed keyPressed;
+        sf::Event::KeyReleased keyReleased;
     };
 };
 
@@ -54,6 +65,20 @@ static inline auto eventVariant(sf::Event const &event) -> EventVariant {
             EventVariant variant;
             variant.kind = EventKind::TextEntered;
             variant.textEntered = event;
+            return variant;
+        }
+
+        if constexpr (std::is_same_v<EventType, sf::Event::KeyPressed>) {
+            EventVariant variant;
+            variant.kind = EventKind::KeyPressed;
+            variant.keyPressed = event;
+            return variant;
+        }
+
+        if constexpr (std::is_same_v<EventType, sf::Event::KeyReleased>) {
+            EventVariant variant;
+            variant.kind = EventKind::KeyReleased;
+            variant.keyReleased = event;
             return variant;
         }
 

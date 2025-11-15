@@ -78,6 +78,30 @@ extension RenderWindow {
         case .TextEntered:
             return .textEntered(eventVariant.textEntered.unicode)
 
+        case .KeyPressed:
+            var modifiers = KeyModifiers()
+            if eventVariant.keyPressed.alt { modifiers.update(with: .alt) }
+            if eventVariant.keyPressed.control { modifiers.update(with: .control) }
+            if eventVariant.keyPressed.shift { modifiers.update(with: .shift) }
+            if eventVariant.keyPressed.system { modifiers.update(with: .system) }
+            return .keyPressed(
+                code: eventVariant.keyPressed.code,
+                scancode: eventVariant.keyPressed.scancode,
+                modifiers: modifiers
+            )
+
+        case .KeyReleased:
+            var modifiers = KeyModifiers()
+            if eventVariant.keyReleased.alt { modifiers.update(with: .alt) }
+            if eventVariant.keyReleased.control { modifiers.update(with: .control) }
+            if eventVariant.keyReleased.shift { modifiers.update(with: .shift) }
+            if eventVariant.keyReleased.system { modifiers.update(with: .system) }
+            return .keyReleased(
+                code: eventVariant.keyReleased.code,
+                scancode: eventVariant.keyReleased.scancode,
+                modifiers: modifiers
+            )
+
         case .Unknown:
             return nil
 

@@ -35,6 +35,12 @@ while window.isOpen {
 
         case .textEntered(let scalar):
             print(scalar)
+
+        case .keyPressed(code: let code, scancode: let scancode, modifiers: let modifiers):
+            print("Key pressed: \(code) \(scancode) \(modifiers)")
+
+        case .keyReleased(code: let code, scancode: let scancode, modifiers: let modifiers):
+            print("Key released: \(code) \(scancode) \(modifiers)")
         }
     }
 
