@@ -14,3 +14,11 @@ static inline auto isOpen(sf::RenderWindow const& window) -> bool {
 static inline auto pollEvent(sf::RenderWindow& window) -> std::optional<sf::Event> {
     return window.pollEvent();
 }
+
+/// A helper for `sf::RenderTarget::draw(sf::Drawable const&, sf::RenderStates const&)` when the render target is
+/// an instance of `sf::RenderWindow` and the drawable is an instance of `sf::CircleShape`. As of the 15th of Nov 2025,
+/// the C++ interoperability layer produces Swift structs for C++ classes and sometimes it does not know how to call a
+/// C++ virtual function.
+static inline auto drawToWindow(sf::RenderWindow& window, sf::CircleShape const& shape) -> void {
+    window.draw(shape);
+}

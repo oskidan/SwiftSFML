@@ -19,7 +19,9 @@ public enum Event: Sendable {
     /// interprets the user input and produces the appropriate printable character.
     case textEntered(Unicode.Scalar)
 
+    /// A keyboard key has been pressed. If a key is held, multiple `keyPressed` events will be generated.
     case keyPressed(code: KeyCode, scancode: KeyScancode, modifiers: KeyModifiers)
 
+    /// A keyboard key has been released.
     case keyReleased(code: KeyCode, scancode: KeyScancode, modifiers: KeyModifiers)
 }

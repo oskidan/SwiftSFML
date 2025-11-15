@@ -1,5 +1,8 @@
 import SwiftSFML
 
+// Usage:
+//  - Press Ctrl+I to enable/disable ImGui. ImGui is disabled by default.
+
 var window = RenderWindow(
     width: 1024,
     height: 720,
@@ -7,11 +10,6 @@ var window = RenderWindow(
 )
 
 window.frameRate = 60
-
-// Try commenting this out to see the ImGui UI disappear.
-if !window.enableImGui() {
-    fatalError("Could not enable ImGui.")
-}
 
 var clock = Clock()
 
@@ -24,7 +22,7 @@ while window.isOpen {
             print("Closed.")
             window.close()
 
-        case .resized(width: let width, height: let height):
+        case .resized(let width, let height):
             print("Resized to \(width)x\(height).")
 
         case .focusLost:
@@ -36,10 +34,13 @@ while window.isOpen {
         case .textEntered(let scalar):
             print(scalar)
 
-        case .keyPressed(code: let code, scancode: let scancode, modifiers: let modifiers):
+        case .keyPressed(let code, let scancode, let modifiers):
             print("Key pressed: \(code) \(scancode) \(modifiers)")
+            if modifiers.contains(.control) && code == .I {
+                print("ImGui was \(window.toggleImGui() ? "enabled" : "disabled").")
+            }
 
-        case .keyReleased(code: let code, scancode: let scancode, modifiers: let modifiers):
+        case .keyReleased(let code, let scancode, let modifiers):
             print("Key released: \(code) \(scancode) \(modifiers)")
         }
     }
@@ -51,6 +52,9 @@ while window.isOpen {
     }
 
     window.clear(color: .init(r: 100, g: 150, b: 250))
-    window.renderImGui()
+
+    let shape = CircleShape(radius: 100.0)
+    window.draw(shape)
+
     window.display()
 }

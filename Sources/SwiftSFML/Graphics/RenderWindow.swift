@@ -118,6 +118,13 @@ extension RenderWindow {
 
     /// Displays on screen what has been rendered to the window so far.
     public mutating func display() {
+        renderImGui()
         guts.display()
+    }
+
+    /// Draws a drawable object to the render target.
+    @inlinable
+    public mutating func draw(_ drawable: borrowing some Drawable) {
+        drawable.draw(to: &self)
     }
 }
