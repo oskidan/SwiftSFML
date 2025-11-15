@@ -63,4 +63,8 @@ public enum Event: Sendable {
 
     /// A window has gained focus.
     case focusGained
+
+    /// A character has been typed. This must not be confused with the `keyPressed` event. The `textEntered` event
+    /// interprets the user input and produces the appropriate printable character.
+    case textEntered(Unicode.Scalar)
 }

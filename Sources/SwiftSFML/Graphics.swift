@@ -75,6 +75,9 @@ extension RenderWindow {
         case .FocusGained:
             return .focusGained
 
+        case .TextEntered:
+            return .textEntered(eventVariant.textEntered.unicode)
+
         case .Unknown:
             return nil
 

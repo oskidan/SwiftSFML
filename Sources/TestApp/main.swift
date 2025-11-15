@@ -19,6 +19,7 @@ while window.isOpen {
 
     while let event = window.pollEvent() {
         switch event {
+
         case .closed:
             print("Closed.")
             window.close()
@@ -31,6 +32,9 @@ while window.isOpen {
 
         case .focusGained:
             print("Focus gained.")
+
+        case .textEntered(let scalar):
+            print(scalar)
         }
     }
 
