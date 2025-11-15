@@ -49,6 +49,10 @@ while window.isOpen {
 
     if window.isImGuiEnabled {
         ImGui.showDemoWindow()
+
+        ImGui.window("Test Window") {
+            print("Contents")
+        }
     }
 
     window.clear(color: .init(r: 100, g: 150, b: 250))
