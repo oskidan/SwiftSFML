@@ -44,4 +44,57 @@ public enum ImGui {
 
         onChanged?()
     }
+
+    /// Creates a slider for changing an `Int32` value.
+    /// - Parameter label: a label next to the slider.
+    /// - Parameter value: the value being modified by the slider.
+    /// - Parameter range: the range of values that the slider produces.
+    /// - Parameter onChanged: a closure to be called when the slider value has changed.
+    public static func slider(
+        _ label: String,
+        value: inout Int32,
+        in range: ClosedRange<Int32>,
+        onChanged: (() -> Void)? = nil
+    ) {
+        let hasChanged = label.withCString {
+            CxxImGui.ImGui.SliderInt($0, &value, range.lowerBound, range.upperBound)
+        }
+
+        guard hasChanged else {
+            return
+        }
+
+        onChanged?()
+    }
+
+    /// Creates a slider for changing an `Int` value.
+    /// - Parameter label: a label next to the slider.
+    /// - Parameter value: the value being modified by the slider.
+    /// - Parameter range: the range of values that the slider produces.
+    /// - Parameter onChanged: a closure to be called when the slider value has changed.
+    public static func slider(
+        _ label: String,
+        value: inout Int,
+        in range: ClosedRange<Int>,
+        onChanged: (() -> Void)? = nil
+    ) {
+        var i32Value = Int32(clamping: value)
+        let i32Range = ClosedRange(
+            uncheckedBounds: (
+                lower: Int32(clamping: range.lowerBound),
+                upper: Int32(clamping: range.upperBound)
+            )
+        )
+
+        let hasChanged = label.withCString {
+            CxxImGui.ImGui.SliderInt($0, &i32Value, i32Range.lowerBound, i32Range.upperBound)
+        }
+
+        guard hasChanged else {
+            return
+        }
+
+        value = Int(i32Value)
+        onChanged?()
+    }
 }
