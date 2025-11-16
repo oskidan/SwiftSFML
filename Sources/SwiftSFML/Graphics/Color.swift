@@ -23,9 +23,19 @@ public struct Color: Sendable {
 
 extension Color {
 
-    var sfValue: sf.Color {
+    init(sfColor: sf.Color) {
+        r = sfColor.r
+        g = sfColor.g
+        b = sfColor.b
+        a = sfColor.a
+    }
+
+    var sfColor: sf.Color {
         .init(r, g, b, a)
     }
+}
+
+extension Color {
 
     public static let black = Self(r: 0, g: 0, b: 0)
 

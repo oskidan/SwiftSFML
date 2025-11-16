@@ -41,6 +41,17 @@ extension CircleShape {
             guts.setRadius(newValue)
         }
     }
+
+    /// Sets the fill color of the shape. By default, the shape fill color is opaque white.
+    public var fillColor: Color {
+        get {
+            .init(sfColor: guts.getFillColor())
+        }
+
+        set {
+            guts.setFillColor(newValue.sfColor)
+        }
+    }
 }
 
 extension CircleShape: Drawable {

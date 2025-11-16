@@ -113,7 +113,7 @@ extension RenderWindow {
     /// Clears the window render target with a color and a stencil value.
     /// The specified stencil value will be truncated to the bit width of the current stencil buffer.
     public mutating func clear(color: Color = .black, stencil: UInt32 = 0) {
-        guts.clear(color.sfValue, sf.StencilValue(stencil))
+        guts.clear(color.sfColor, sf.StencilValue(stencil))
     }
 
     /// Displays on screen what has been rendered to the window so far.

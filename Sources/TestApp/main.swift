@@ -14,6 +14,7 @@ window.frameRate = 60
 var clock = Clock()
 
 var shape = CircleShape(radius: 100.0)
+shape.fillColor = .green
 
 while window.isOpen {
 
