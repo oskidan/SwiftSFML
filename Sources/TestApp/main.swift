@@ -54,6 +54,7 @@ while window.isOpen {
         ImGui.window("Test Window") {
             ImGui.slider("Circle radius", value: &shape.radius, in: 0...100)
             ImGui.slider("Circle points", value: &shape.pointCount, in: 3...30)
+            ImGui.colorEdit("Color circle", value: &shape.fillColor)
         }
     }
 

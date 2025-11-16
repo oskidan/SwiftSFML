@@ -97,4 +97,39 @@ public enum ImGui {
         value = Int(i32Value)
         onChanged?()
     }
+
+    /// Creates an editor for color components.
+    /// - Parameter label: a label next to the editor.
+    /// - Parameter value: the `Color` being modified by the editor.
+    /// - Parameter onChanged: a closure to be called when the value has changed.
+    public static func colorEdit(
+        _ label: String,
+        value: inout Color,
+        onChanged: (() -> Void)? = nil
+    ) {
+        var color = (
+            Float(value.r) / 255,
+            Float(value.g) / 255,
+            Float(value.b) / 255,
+            Float(value.a) / 255
+        )
+
+        let hasChanged = label.withCString { labelPtr in
+            withUnsafeMutablePointer(to: &color.0) { colorPtr in
+                CxxImGui.ImGui.ColorEdit4(labelPtr, colorPtr)
+            }
+        }
+
+        guard hasChanged else {
+            return
+        }
+
+        value = Color(
+            r: UInt8(color.0 * 255),
+            g: UInt8(color.1 * 255),
+            b: UInt8(color.2 * 255),
+            a: UInt8(color.3 * 255)
+        )
+        onChanged?()
+    }
 }
