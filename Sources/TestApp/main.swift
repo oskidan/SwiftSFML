@@ -13,6 +13,8 @@ window.frameRate = 60
 
 var clock = Clock()
 
+var shape = CircleShape(radius: 100.0)
+
 while window.isOpen {
 
     while let event = window.pollEvent() {
@@ -48,16 +50,13 @@ while window.isOpen {
     window.updateImGui(clock.restart())
 
     if window.isImGuiEnabled {
-        ImGui.showDemoWindow()
-
         ImGui.window("Test Window") {
-            print("Contents")
+            ImGui.slider("Circle radius", value: &shape.radius, in: 0...100)
         }
     }
 
     window.clear(color: .init(r: 100, g: 150, b: 250))
 
-    let shape = CircleShape(radius: 100.0)
     window.draw(shape)
 
     window.display()

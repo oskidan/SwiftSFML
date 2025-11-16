@@ -30,6 +30,17 @@ extension CircleShape {
             guts.setPointCount(newValue)
         }
     }
+
+    /// The circle radius.
+    public var radius: Float {
+        get {
+            guts.getRadius()
+        }
+
+        mutating set {
+            guts.setRadius(newValue)
+        }
+    }
 }
 
 extension CircleShape: Drawable {
