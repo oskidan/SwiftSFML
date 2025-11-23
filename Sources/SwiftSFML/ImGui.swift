@@ -132,4 +132,10 @@ public enum ImGui {
         )
         onChanged?()
     }
+
+    public static func text(_ label: String) {
+        label.withCString { labelPtr in
+            CxxImGui.ImGui.TextUnformatted(labelPtr)
+        }
+    }
 }
