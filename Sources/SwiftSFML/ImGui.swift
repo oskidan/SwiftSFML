@@ -1,4 +1,5 @@
 private import CxxImGui
+private import CxxStdlib
 
 public enum ImGui {
 
@@ -133,9 +134,38 @@ public enum ImGui {
         onChanged?()
     }
 
+    /// Creates a static text, AKA label.
     public static func text(_ label: String) {
         label.withCString { labelPtr in
             CxxImGui.ImGui.TextUnformatted(labelPtr)
         }
+    }
+
+    /// Creates a text edit.
+    /// - Parameter label: The label to be drawn next to the text edit.
+    /// - Parameter value: The text that was inputted by the user. Also serves as the initial value of the text input.
+    /// - Parameter maxLength: The maximum length of the input. Set to 1024 by default.
+    /// - Parameter onChanged: A closure to be called when the value has changed.
+    public static func inputText(
+        _ label: String,
+        value: inout String,
+        maxLength: Int = 1024,
+        onChanged: (() -> Void)? = nil
+    ) {
+        var hasChanged: Bool = false
+        let text = String(unsafeUninitializedCapacity: maxLength) { bufferPtr in
+            label.withCString { labelPtr in
+                _ = value.withUTF8 { bufferPtr.initialize(from: $0) }
+                hasChanged = CxxImGui.ImGui.InputText(labelPtr, bufferPtr.baseAddress, bufferPtr.count)
+                return bufferPtr.baseAddress.flatMap { strlen($0) } ?? 0
+            }
+        }
+
+        guard hasChanged else {
+            return
+        }
+
+        value = text
+        onChanged?()
     }
 }

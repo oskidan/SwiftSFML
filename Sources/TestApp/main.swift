@@ -16,6 +16,8 @@ var clock = Clock()
 var shape = CircleShape(radius: 100.0)
 shape.fillColor = .green
 
+var say = "Hello, World!"
+
 while window.isOpen {
 
     while let event = window.pollEvent() {
@@ -55,7 +57,8 @@ while window.isOpen {
             ImGui.slider("Circle radius", value: &shape.radius, in: 0...100)
             ImGui.slider("Circle points", value: &shape.pointCount, in: 3...30)
             ImGui.colorEdit("Color circle", value: &shape.fillColor)
-            ImGui.text("Hello, World!")
+            ImGui.inputText("Say what?", value: &say)
+            ImGui.text(say)
         }
     }
 
