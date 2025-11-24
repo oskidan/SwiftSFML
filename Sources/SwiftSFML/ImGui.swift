@@ -155,7 +155,10 @@ public enum ImGui {
         var hasChanged: Bool = false
         let text = String(unsafeUninitializedCapacity: maxLength) { bufferPtr in
             label.withCString { labelPtr in
-                _ = value.withUTF8 { bufferPtr.initialize(from: $0) }
+                let (_, idx) = value.withUTF8 { bufferPtr.initialize(from: $0) }
+                if idx < bufferPtr.count {
+                    bufferPtr[idx] = 0
+                }
                 hasChanged = CxxImGui.ImGui.InputText(labelPtr, bufferPtr.baseAddress, bufferPtr.count)
                 return bufferPtr.baseAddress.flatMap { strlen($0) } ?? 0
             }
