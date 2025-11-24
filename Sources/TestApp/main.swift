@@ -59,6 +59,9 @@ while window.isOpen {
             ImGui.colorEdit("Color circle", value: &shape.fillColor)
             ImGui.inputText("Say what?", value: &say)
             ImGui.text(say)
+            ImGui.button("Click me!") {
+                shape.fillColor = .randomRGB
+            }
         }
     }
 

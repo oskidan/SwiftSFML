@@ -171,4 +171,19 @@ public enum ImGui {
         value = text
         onChanged?()
     }
+
+    /// Creates a button with the given label and action.
+    /// - Parameter label: A string representing the button label.
+    /// - Parameter action: A closure to be called when the button has been pressed.
+    public static func button(_ label: String, action: (() -> Void)? = nil) {
+        let hasChanged = label.withCString { labelPtr in
+            CxxImGui.ImGui.Button(labelPtr, CxxImGui.ImVec2(0, 0))
+        }
+
+        guard hasChanged else {
+            return
+        }
+
+        action?()
+    }
 }
