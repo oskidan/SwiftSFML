@@ -55,3 +55,14 @@ extension Color {
 
     public static let transparent = Self(r: 0, g: 0, b: 0, a: 0)
 }
+
+extension Color {
+
+    public static var randomRGB: Self {
+        .init(
+            r: .random(in: 0...255),
+            g: .random(in: 0...255),
+            b: .random(in: 0...255)
+        )
+    }
+}
